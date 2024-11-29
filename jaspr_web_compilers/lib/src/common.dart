@@ -16,9 +16,10 @@ final sdkDir = p.dirname(p.dirname(Platform.resolvedExecutable));
 final webSdkDir = (() {
   var result = Process.runSync('flutter', ['doctor', '--version', '--machine'],
       stdoutEncoding: utf8, runInShell: true);
-  if ((result.stderr as String).isNotEmpty) {
+  if (result.exitCode != 0) {
     throw UnsupportedError(
-        'Calling "flutter doctor" resulted in: "${result.stderr}". '
+        'Calling "flutter doctor" exited with code "${result.exitCode}" and '
+        'stderr of: "${result.stderr}". '
         'Make sure flutter is installed and setup correctly.');
   }
   var output = jsonDecode(result.stdout as String) as Map;
